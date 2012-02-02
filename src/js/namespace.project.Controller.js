@@ -1,38 +1,37 @@
+goog.provide('namespace.project.Controller');
+goog.require('namespace.project.Model');
+goog.require('namespace.project.View');
+goog.require('findzen.Log');
+
 
 /**
  * Controller component of the Model View Controller implementation
- * @param {*} model The data Model for this Controller
+ * @param {namespace.project.Model} model The data Model for this Controller
+ * @param {namespace.project.View} view The View for this Controller
  * @constructor
  */
-namespace.project.Controller = function( model ) {
-	
-	this._model = model;
+namespace.project.Controller = function( model, view ) {
+	/**
+	 * @type {namespace.project.Model}
+	 */
+	this.model = model;
 	
 	/**
-	 * @private
-	 * @type {number}
+	 * @type {namespace.project.View}
 	 */
-	this._timer;
+	this.view = view;
+	
+	// initialize
+	this.init();
 }
 
-/**
- * Starts the timer running
- */
-namespace.project.Controller.prototype.startTimer = function() {
-	
-	var self = this;
-	
-	var tick = function() {
-		self._model.setTime( new Date() );
-	}
-	
-	this._timer = setInterval( tick, 1000 );
-	tick();
-}
 
 /**
- * Stops the current time from running
+ * Init
  */
-namespace.project.Controller.prototype.stopTimer = function() {
-	clearInterval( this._timer );
+namespace.project.Controller.prototype.init = function() {
+	Log.status('Controller init');
 }
+
+
+/* EOF */

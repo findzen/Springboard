@@ -1,4 +1,15 @@
 // Generated using http://www.dotnetwise.com/Code/Externs/index.html
+var signals = {
+    "VERSION": {},
+    "Signal": {
+		"constructor": function () {},
+		"add": function () {},
+		"addOnce": function () {},
+		"dispatch": function () {},
+		"remove": function () {},
+		"removeAll": function () {}
+	}
+};
 var $ = {
     "fn": {
         "constructor": function () {},
@@ -32,6 +43,7 @@ var $ = {
         "removeAttr": function () {},
         "addClass": function () {},
         "removeClass": function () {},
+		"switchClass": function () {},
         "toggleClass": function () {},
         "hasClass": function () {},
         "val": function () {},
@@ -183,7 +195,8 @@ var $ = {
     "browser": {
         "webkit": {},
         "version": {},
-        "safari": {}
+        "safari": {},
+		"msie": {}
     },
     "support": {
         "leadingWhitespace": {},

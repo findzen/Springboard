@@ -1,3 +1,6 @@
+goog.provide('namespace.project.Model');
+goog.require('findzen.Log');
+
 
 /**
  * Model component of the Model View Controller implementation
@@ -7,30 +10,24 @@
 namespace.project.Model = function( data ) {
 	
 	/**
-	 * Dispatched when the time is updated
-	 * @type {namespace.Event}
-	 */
-	this.onTimeChanged = new namespace.Event( this );
-	
-	/**
-	 * @private
-	 * The data stored in this Model
 	 * @type {Object}
 	 */
-	this._data = data || {};
+	this.data = data || {};
+	
+	// initialize
+	this.init();
+	
 }
 
-/**
- * @return {Date} The current time.
- */
-namespace.project.Model.prototype.getTime = function() {
-	return this._data.time;
-}
 
 /**
- * @param {Date} time The current time
+ * Init
  */
-namespace.project.Model.prototype.setTime = function( time ) {
-	this._data.time = time;
-	this.onTimeChanged.notify( time );
+namespace.project.Model.prototype.init = function() {
+	
+	Log.status('Model init');
+	
 }
+
+
+/* EOF */

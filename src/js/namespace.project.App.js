@@ -1,36 +1,58 @@
+goog.provide('namespace.project.App');
+goog.require('namespace.project.Model');
+goog.require('namespace.project.View');
+goog.require('namespace.project.Controller');
+goog.require('findzen.Log');
+
 
 /**
- * Generic onReady function called from all pages.
- * Set up your page initialisation code by adding it's ID to the switch statement
+ * Application
+ * @constructor
  */
-$(document).ready(function(){
+namespace.project.App = function() {
 	
-	/*
-		Determine which page we are on...
-	*/
+	/**
+	 * @type {namespace.project.Model}
+	 */
+	this.model;
 	
-	var html = document.getElementsByTagName( "html" )[0];
-	var page = html.getAttribute( "id" );
+	/**
+	 * @type {namespace.project.View}
+	 */
+	this.view;
 	
-	Logger.debug( "document.ready :: " + page );
+	/**
+	 * @type {namespace.project.Controller}
+	 */
+	this.controller;
 	
-	var	controller,
-		model,
-		view,
-		dom = {};
+	// initialize
+	this.init();
 	
-	switch( page ) {
-		
-		case "index" : default :
-		
-			dom.output = $("#output");
-			
-			model		= new namespace.project.Model();
-			controller	= new namespace.project.Controller( model );
-			view		= new namespace.project.View( model, controller, dom );
-			
-			controller.startTimer();
-			
-		break;
+}
+
+
+/**
+ * Init
+ */
+namespace.project.App.prototype.init = function() {
+	
+	Log.status( 'App init' );
+	
+	var	data 	= {},
+		dom 	= {};
+
+	this.model		= new namespace.project.Model( data );
+	this.view		= new namespace.project.View( dom );
+	this.controller	= new namespace.project.Controller( this.model, this.view );
+
+	if( goog.DEBUG ) {
+		window.model 		= this.model;
+		window.controller 	= this.controller;
+		window.view 		= this.view;
 	}
-});
+	
+}
+
+
+/* EOF */
