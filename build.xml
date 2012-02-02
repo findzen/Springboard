@@ -419,12 +419,12 @@
 				
 	-->
 	<target	name="compile">
-		<echo>Compiling '${OUTPUT_SRC_JS}' with Closure Compiler using namespace ${NAMESPACE}...
+		<echo>Compiling '${OUTPUT_SRC_JS}' with Closure Compiler using ${APP_NAMESPACE}...
 		</echo>
 		<exec executable="${LIB_DIR}/google-closure-library/closure/bin/build/closurebuilder.py" failonerror="true">
 			<arg line="--root=${LIB_DIR}/google-closure-library" />
 			<arg line="--root='${SRC_DIR}'" />
-			<arg line="--namespace='${NAMESPACE}'" />
+			<arg line="--namespace='${APP_NAMESPACE}'" />
 			<arg line="--output_mode=compiled" />
 			<arg line="--compiler_jar=${LIB_DIR}/compiler.jar" />
 			<arg line="--output_file=${BUILD_DIR}/${OUTPUT_SRC_JS}" />

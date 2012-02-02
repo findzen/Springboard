@@ -24,6 +24,7 @@ To get started, first clone the repository:
 Run the **setup** task and enter your project's namespace when prompted:
 	
 	cd YourProjectName
+	git clone git@github.com:jarib/google-closure-library ./lib/google-closure-library
 	ant setup
 	Enter the full project namespace for this project: com.domain.project
 
