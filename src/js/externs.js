@@ -1,4 +1,17 @@
 // Generated using http://www.dotnetwise.com/Code/Externs/index.html
+window.log = function() {};
+var Log = {
+	"init": function () {},
+	"info": function () {},
+	"status": function () {},
+	"debug": function () {},
+	"warn": function () {},
+	"error": function () {},
+	"dump": function () {},
+	"enableLogFile": function () {},
+	"enableOutputToDOM": function () {},
+	"dumpToFile": function () {}
+};
 var signals = {
     "VERSION": {},
     "Signal": {

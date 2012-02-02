@@ -1,9 +1,3 @@
-goog.provide('namespace.project.Controller');
-goog.require('namespace.project.Model');
-goog.require('namespace.project.View');
-goog.require('findzen.Log');
-
-
 /**
  * Controller component of the Model View Controller implementation
  * @param {namespace.project.Model} model The data Model for this Controller
@@ -11,6 +5,7 @@ goog.require('findzen.Log');
  * @constructor
  */
 namespace.project.Controller = function( model, view ) {
+	
 	/**
 	 * @type {namespace.project.Model}
 	 */
@@ -23,15 +18,18 @@ namespace.project.Controller = function( model, view ) {
 	
 	// initialize
 	this.init();
-}
+	
+};
 
 
 /**
  * Init
  */
 namespace.project.Controller.prototype.init = function() {
+	
 	Log.status('Controller init');
-}
+	
+};
 
 
 /* EOF */

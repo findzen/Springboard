@@ -19,12 +19,11 @@ Quick Setup
 To get started, first clone the repository:
 
 	cd /your/workspace
-	git clone git@github.com:soulwire/Springboard.git YourProjectName
+	git clone git@github.com:findzen/Springboard.git YourProjectName
 
 Run the **setup** task and enter your project's namespace when prompted:
 	
 	cd YourProjectName
-	git clone git@github.com:jarib/google-closure-library ./lib/google-closure-library
 	ant setup
 	Enter the full project namespace for this project: com.domain.project
 
@@ -48,7 +47,7 @@ Scripts and styles embedded outside of blocks will remain untouched to add flexi
 
 Springboard supports blocks for both third party libraries and project source files in CSS and JavaScript. Libraries used by your project are combined to reduce HTTP requests but not minfied, whereas project source files are.
 
-Springboard uses [externs](http://code.google.com/closure/compiler/docs/api-tutorial3.html) to manage compiled code dependancies and ships with externs for [JQuery 1.5](http://jquery.com/). Externs for other libraries can be generated using [Closure Compiler Externs Extractor](http://www.dotnetwise.com/Code/Externs/index.html).
+Springboard uses [externs](http://code.google.com/closure/compiler/docs/api-tutorial3.html) to manage compiled code dependancies and ships with externs for [JQuery 1.7.1](http://jquery.com/). Externs for other libraries can be generated using [Closure Compiler Externs Extractor](http://www.dotnetwise.com/Code/Externs/index.html).
 
 ###Building with ANT
 

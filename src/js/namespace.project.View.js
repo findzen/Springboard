@@ -1,7 +1,3 @@
-goog.provide('namespace.project.View');
-goog.require('findzen.Log');
-
-
 /**
  * View component of the Model View Controller implementation
  * @param {Object} dom References to DOM objects used in this view
@@ -17,7 +13,7 @@ namespace.project.View = function( dom ) {
 	// initialize
 	this.init();
 	
-}
+};
 
 
 /**
@@ -27,6 +23,6 @@ namespace.project.View.prototype.init = function() {
 	
 	Log.status('View init');
 	
-}
+};
 
 /* EOF */

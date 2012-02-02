@@ -4,19 +4,6 @@
 # Note .htaccess files are an overhead, this logic should be in your Apache config if possible
 # httpd.apache.org/docs/2.2/howto/htaccess.html
 
-# Techniques in here adapted from all over, including:
-#   Kroc Camen: camendesign.com/.htaccess
-#   perishablepress.com/press/2006/01/10/stupid-htaccess-tricks/
-#   Sample .htaccess file of CMS MODx: modxcms.com
-
-
-###
-### If you run a webserver other than Apache, consider:
-### github.com/h5bp/server-configs
-###
-
-
-
 # ----------------------------------------------------------------------
 # Better website experience for IE users
 # ----------------------------------------------------------------------

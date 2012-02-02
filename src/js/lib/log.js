@@ -1,5 +1,3 @@
-goog.provide('findzen.Log');
-
 /**
  * Log.js debugging tool
  * 
@@ -12,7 +10,7 @@ var Log = window.Log = {};
  */
 window.log = function(msg) {
 	Log._output(arguments, Log._levels.LOG);
-}
+};
 
 /**
  * @param {*} msg
@@ -20,7 +18,7 @@ window.log = function(msg) {
  */
 Log.info = function(msg) {
 	Log._output(arguments, Log._levels.INFO);
-}
+};
 
 /**
  * @param {*} msg
@@ -28,7 +26,7 @@ Log.info = function(msg) {
  */
 Log.status = function(msg) {
 	Log._output(arguments, Log._levels.STATUS);
-}
+};
 
 /**
  * @param {*} msg
@@ -36,7 +34,7 @@ Log.status = function(msg) {
  */
 Log.debug = function(msg) {
 	Log._output(arguments, Log._levels.DEBUG);
-}
+};
 
 /**
  * @param {*} msg
@@ -44,7 +42,7 @@ Log.debug = function(msg) {
  */
 Log.warn = function(msg) {
 	Log._output(arguments, Log._levels.WARNING);
-}
+};
 
 /**
  * @param {*} msg
@@ -52,7 +50,7 @@ Log.warn = function(msg) {
  */
 Log.error = function(msg) {
 	Log._output(arguments, Log._levels.ERROR);
-}
+};
 
 /**
  * @public
@@ -63,7 +61,7 @@ Log.dump = function() {
 	consoleRef = window.open('','logdump');
 	consoleRef.document.writeln('<html><head><title>Log</title></head><body bgcolor=white onLoad="self.focus()">' + '<pre>' + Log._getHistory() + '</pre></body></html>');
 	consoleRef.document.close();
-}
+};
 
 /**
  * @public
@@ -71,7 +69,7 @@ Log.dump = function() {
 Log.enableLogFile = function() {
 	Log._toFile = true;
 	Log.info( Log._getInfo() );
-}
+};
 
 /**
  * @param {Object} dom
@@ -79,14 +77,14 @@ Log.enableLogFile = function() {
  */
 Log.enableOutputToDOM = function(dom) {
 	Log._dom = dom ? $(dom) : $('body');
-}
+};
 
 /**
  * @public
  */
 Log.dumpToFile = function() {
 	Log._logToFile( Log._getHistory() );
-}
+};
 
 /**
  * @type {Array}
@@ -112,7 +110,7 @@ Log._levels = {
 	DEBUG: 		'DEBUG',
 	WARNING:	'WARNING',
 	ERROR: 		'ERROR'
-}
+};
 
 /**
  * @param {*} args
@@ -120,9 +118,6 @@ Log._levels = {
  * @private
  */
 Log._output = function(args, level) {
-	if(!goog.DEBUG)
-		return;
-
 	var msg 	= args ? level + '\t:: ' + Array.prototype.join.call(args, ' ') : level,
 		levels 	= Log._levels,
 		method;
@@ -158,7 +153,7 @@ Log._output = function(args, level) {
 	
 	if(Log._dom)
 		Log._logToDOM(msg);
-}
+};
 
 /**
  * @param {string} method
@@ -186,7 +181,7 @@ Log._delegate = function(method, args) {
 			func(Array.prototype.join.call(args, ' '));
 		}
 	}
-}
+};
 
 /**
  * @param {string} msg
@@ -196,7 +191,7 @@ Log._logToFile = function(msg) {
 	$.ajax({
 	  url: 'Log.php?msg=' + encodeURIComponent(msg)
 	});
-}
+};
 
 /**
  * @param {string} msg
@@ -204,7 +199,7 @@ Log._logToFile = function(msg) {
  */
 Log._logToDOM = function(msg) {
 	Log._dom.append(msg + '<br>');
-}
+};
 
 /**
  * @private
@@ -220,7 +215,7 @@ Log._getInfo = function() {
 	}
 
 	return info;
-}
+};
 
 /**
  * @private
@@ -235,15 +230,6 @@ Log._getHistory = function() {
 		output += history[i] + '\n';
 	
 	return output;
-}
+};
 
-/**
- * Log override
- * For compiled production code to remove log calls
- */
-if(!goog.DEBUG) {
-	
-	window.log = Log.info = Log.status = Log.debug = Log.warn = Log.error = Log.dump = Log.enableLogFile = Log.enableOutputToDOM = Log.dumpToFile = function() {
-		return;
-	}
-}
+/* EOF */

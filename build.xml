@@ -3,26 +3,24 @@
 <!--
 
 	ANT build file for HTML/CSS/JavaScript based projects
-
+	
 	@author Justin Windle
-	@author Justin Taylor
-
+	
 	Minifies CSS using YUI Compressor
 	Compiles JavaScript using Google Closure Compiler
 	Generates JavaScript documentation using JSDoc
-
+	
 	Usage:
-
+	
 	$ cd /project/directory/
 	$ ant setup
 	$ ant build
 	$ ant jsdoc
-	$ ant deps
-	$ ant compile
 	
 -->
 
 <project name="Build" default="build" basedir=".">
+	
 	<!--
 	
 		Include the build properties
@@ -37,7 +35,7 @@
 		
 	-->
 	
-	<property name="pages" value="**/*.htm,**/*.html,**/*.php,**/*.phtml,**/*.asp,**/*.aspx" />
+	<property name="pages" value="**/*.htm,**/*.html,**/*.php,**/*.asp,**/*.aspx" />
 	
 	<!--
 	
@@ -57,7 +55,7 @@
 		
 	-->
 	
-	<target name="build" depends="clean, copy, minify, deps, compile" />
+	<target name="build" depends="clean, copy, minify, compile" />
 	
 	<!--
 		
@@ -101,98 +99,109 @@
 	-->
 	
 	<target name="setup">
-		<input message="Enter the full project namespace for this project:" addproperty="namespace" />
-		
-		<script language="javascript">
-			<![CDATA[
-				var namespace = new String( project.getProperty( "namespace" ) );
-		
-				var valid = namespace.length > 1 && !/[^\.|\w]/g.test( namespace );
-				project.setProperty( "valid", valid );
-		
-				if( valid ) {
-			
-					var parts = namespace.split( '.' );
-					var setup = [];
-
-					while( parts.length > 0 ) {
-						setup.push( parts.join('.') + " = {};" );
-						parts.pop();
-					}
-
-					setup.reverse();
-					setup[0] = "var " + setup[0];
-					setup = setup.join( "\n" );
-
-					var domain = namespace.split( '.' );
-
-					if( domain.length > 1 ) {
-						domain.pop();	
-					}
-
-					setup = "/**\n * The root namespace\n * @const\n */\n" + setup;
-
-					project.setProperty( "domain", domain.join('.') );
-					project.setProperty( "setup", setup );
-				}
-			]]>
-		</script>
 		
 		<if>
-			<equals arg1="${valid}" arg2="true" />
+			<available file="${SRC_DIR}/js/namespace.js" />
 			<then>
 				
-				<echo>Injecting namespaces...
-				</echo>
-
-				<replaceregexp match="(\W)namespace.project(\W)" flags="g" replace="\1${namespace}\2">
-					<fileset dir="${SRC_DIR}/../" includes="**/*" />
-				</replaceregexp>
-
-				<replaceregexp match="(\W)namespace(\W)" flags="g" replace="\1${domain}\2">
-					<fileset dir="${SRC_DIR}/../" includes="**/*" />
-				</replaceregexp>
-
-				<echo>Renaming files...
-				</echo>
-
-				<move verbose="true" todir="${SRC_DIR}"> 
-					<regexpmapper from="^(.*?)namespace\.project\.(.*+)" to="\1${namespace}.\2" />
-					<fileset dir="${SRC_DIR}" includes="**/*" />
-				</move>
-
-				<move verbose="true" todir="${SRC_DIR}"> 
-					<regexpmapper from="^(.*?)namespace\.(.*+)" to="\1${domain}.\2" />
-					<fileset dir="${SRC_DIR}" includes="**/*" />
-				</move>
-
-				<echo>Adding namespace setup...
-				</echo>
-
-				<echo message="${setup}" output="${SRC_DIR}/js/${domain}.js" />
+				<input message="Enter the full project namespace for this project:" addproperty="namespace" />
 				
-				<input message="Remove GIT metadata?" validargs="yes,no" defaultvalue="y" addproperty="disconnect" />
+				<script language="javascript">
+					<![CDATA[
+						var namespace = new String( project.getProperty( "namespace" ) );
+				
+						var valid = namespace.length > 1 && !/[^\.|\w]/g.test( namespace );
+						project.setProperty( "valid", valid );
+				
+						if( valid ) {
+					
+							var parts = namespace.split( '.' );
+							var setup = [];
+
+							while( parts.length > 0 ) {
+								setup.push( parts.join('.') + " = {};" );
+								parts.pop();
+							}
+
+							setup.reverse();
+							setup[0] = "var " + setup[0];
+							setup = setup.join( "\n" );
+
+							var domain = namespace.split( '.' );
+
+							if( domain.length > 1 ) {
+								domain.pop();	
+							}
+
+							setup = "/**\n * The root namespace\n * @const\n */\n" + setup;
+
+							project.setProperty( "domain", domain.join('.') );
+							project.setProperty( "setup", setup );
+						}
+					]]>
+				</script>
 				
 				<if>
-					<equals arg1="${disconnect}" arg2="yes" />
+					<equals arg1="${valid}" arg2="true" />
 					<then>
-						<echo>Removing GIT metadata...
+						
+						<echo>Injecting namespaces...
 						</echo>
-						<delete dir=".git"/>
+
+						<replaceregexp match="(\W)namespace.project(\W)" flags="g" replace="\1${namespace}\2">
+							<fileset dir="${SRC_DIR}" includes="**/*" />
+						</replaceregexp>
+
+						<replaceregexp match="(\W)namespace(\W)" flags="g" replace="\1${domain}\2">
+							<fileset dir="${SRC_DIR}" includes="**/*" />
+						</replaceregexp>
+
+						<echo>Renaming files...
+						</echo>
+
+						<move verbose="true" todir="${SRC_DIR}"> 
+							<regexpmapper from="^(.*?)namespace\.project\.(.*+)" to="\1${namespace}.\2" />
+							<fileset dir="${SRC_DIR}" includes="**/*" />
+						</move>
+
+						<move verbose="true" todir="${SRC_DIR}"> 
+							<regexpmapper from="^(.*?)namespace\.(.*+)" to="\1${domain}.\2" />
+							<fileset dir="${SRC_DIR}" includes="**/*" />
+						</move>
+
+						<echo>Adding namespace setup...
+						</echo>
+
+						<echo message="${setup}" output="${SRC_DIR}/js/${domain}.js" />
+						
+						<input message="Remove GIT metadata?" validargs="yes,no" defaultvalue="y" addproperty="disconnect" />
+						
+						<if>
+							<equals arg1="${disconnect}" arg2="yes" />
+							<then>
+								<echo>Removing GIT metadata...
+								</echo>
+								<delete dir=".git"/>
+							</then>
+						</if>
+						
+						<echo>Good to go!
+						</echo>
+						
 					</then>
+					<else>
+						
+						<echo>Invalid namespace "${namespace}"
+						</echo>
+						
+					</else>
 				</if>
-				
-				<echo>Good to go!
-				</echo>
-				
 			</then>
 			<else>
-				
-				<echo>Invalid namespace "${namespace}"
-				</echo>
-				
+				<echo>Error: Setup has already been run</echo>
 			</else>
-		</if> 
+		</if>
+		
 	</target>
 
 	<!--
@@ -379,6 +388,13 @@
 			<filelist dir="${SRC_DIR}" files="${blocks.lib.js}"/>
 		</concat>
 		
+		<echo>Combining JavaScript Sources...
+		</echo>
+		
+		<concat destfile="${BUILD_DIR}/${OUTPUT_SRC_JS}" append="true">
+			<filelist dir="${SRC_DIR}" files="${blocks.src.js}"/>
+		</concat>
+		
 		<echo>Copying Referenced Files...
 		</echo>
 			
@@ -398,49 +414,35 @@
 		<yui-minify target="${BUILD_DIR}/${OUTPUT_LIB_CSS}" />
 	</target>
 	
-	
-	<!--
-	
-		Generate dependencies file for Closure Compiler
-				
-	-->
-	<target	name="deps">
-		<echo>Generating dependencies file for Closure Compiler...
-		</echo>
-		<exec executable="${LIB_DIR}/google-closure-library/closure/bin/build/depswriter.py" failonerror="true">
-			<arg line="--root='${SRC_DIR}'" />
-			<arg line="--output_file=${DEPS}" />
-		</exec>
-	</target>
-	
 	<!--
 	
 		Compiles the combined JavaScript with Google Closure Compiler
-				
+		
 	-->
-	<target	name="compile">
-		<echo>Compiling '${OUTPUT_SRC_JS}' with Closure Compiler using ${APP_NAMESPACE}...
-		</echo>
-		<exec executable="${LIB_DIR}/google-closure-library/closure/bin/build/closurebuilder.py" failonerror="true">
-			<arg line="--root=${LIB_DIR}/google-closure-library" />
-			<arg line="--root='${SRC_DIR}'" />
-			<arg line="--namespace='${APP_NAMESPACE}'" />
-			<arg line="--output_mode=compiled" />
-			<arg line="--compiler_jar=${LIB_DIR}/compiler.jar" />
-			<arg line="--output_file=${BUILD_DIR}/${OUTPUT_SRC_JS}" />
-			<arg line="--compiler_flags='--compilation_level=${COMPILATION}'" />
-			<arg line="--compiler_flags='--externs=${EXTERNS}'" />
-			<arg line="--compiler_flags='--define=goog.DEBUG=${DEBUG}'" />
-		</exec>
-	</target>
 	
+	<target	name="compile">
+		
+		<echo>Compiling '${OUTPUT_SRC_JS}' with Closure Compiler...
+		</echo>
+		
+		<jscomp compilationLevel="${COMPILATION}" warning="${WARNINGS}" debug="false" output="${BUILD_DIR}/${OUTPUT_SRC_JS}">
+			<externs dir="">
+				<file name="${EXTERNS}" />
+			</externs>
+			<sources dir="">
+				<file name="${BUILD_DIR}/${OUTPUT_SRC_JS}" />
+			</sources>
+		</jscomp>
+	</target>
 	
 	<!--
 	
 		Generates documentation using JSDoc
 		
 	-->
+	
 	<target name="jsdoc">
+		
 		<echo>Generating Documentation using JSDoc Toolkit 2.4.0...
 		</echo>
 		
@@ -456,13 +458,16 @@
 		</exec>
 		
 		<!-- Pre-release JSDoc 3 setup: https://github.com/micmath/jsdoc/
+		
 		<exec executable="java" failonerror="true">
 			<arg line="-jar ${JSDOC}/jsdoc.jar" />
 			<arg line="${SRC_DIR}/${JS_DIR}/" />
 			<arg line="-d ${basedir}/${DOCS_DIR}" />
 			<arg line="-r" />
 		</exec>
+		
 		-->
+		
 	</target>
 	
 </project>
