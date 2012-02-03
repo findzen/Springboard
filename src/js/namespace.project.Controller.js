@@ -1,35 +1,38 @@
 /**
+ *
  * Controller component of the Model View Controller implementation
- * @param {namespace.project.Model} model The data Model for this Controller
- * @param {namespace.project.View} view The View for this Controller
- * @constructor
+ *
  */
-namespace.project.Controller = function( model, view ) {
-	
+;(function( $, window, document, undefined ) {
+
 	/**
-	 * @type {namespace.project.Model}
+	 * Controller
+	 * @param {namespace.project.Model} model The data Model for this Controller
+	 * @param {namespace.project.View} view The View for this Controller
+	 * @constructor
 	 */
-	this.model = model;
+	namespace.project.Controller = function( model, view ) {
+		/**
+		 * @type {namespace.project.Model}
+		 */
+		this.model = model;
 	
+		/**
+		 * @type {namespace.project.View}
+		 */
+		this.view = view;
+	
+		// initialize
+		this.init();
+	};
+
 	/**
-	 * @type {namespace.project.View}
+	 * Init
 	 */
-	this.view = view;
-	
-	// initialize
-	this.init();
-	
-};
+	namespace.project.Controller.prototype.init = function() {
+		Log.status( 'Controller init' );
+	};
 
-
-/**
- * Init
- */
-namespace.project.Controller.prototype.init = function() {
-	
-	Log.status('Controller init');
-	
-};
-
+})( jQuery, window, document );
 
 /* EOF */
